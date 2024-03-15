@@ -6,6 +6,7 @@ import com.backend.clinicaDental.dto.entrada.PacienteEntradaDto;
 import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
 import com.backend.clinicaDental.entity.Paciente;
 import com.backend.clinicaDental.service.IPacienteService;
+import com.backend.clinicaDental.utils.JsonPrinter;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,12 @@ public class PacienteService implements IPacienteService {
 
 
     @Override
-    public PacienteSalidaDto registrarPaciente(PacienteEntradaDto paciente) {return pacienteIDao.registrar(paciente);}
+    public PacienteSalidaDto registrarPaciente(PacienteEntradaDto paciente) {
+        LOGGER.info("PacienteEntradaDto:" + JsonPrinter.toString(paciente));
+        Paciente pacienteEntidad = modelMapper.map(paciente, Paciente.class);
+
+        return pacienteIDao.registrar(paciente);}
+
     @Override
     public List<PacienteSalidaDto> listarPacientes() {
         return pacienteIDao.listarTodos();
