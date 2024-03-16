@@ -1,9 +1,14 @@
 package com.backend.clinicaDental.service.impl;
 
+import com.backend.clinicaDental.dto.entrada.OdontologoEntradaDto;
+import com.backend.clinicaDental.dto.salida.OdontologoSalidaDto;
+import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
 import com.backend.clinicaDental.entity.Odontologo;
+import com.backend.clinicaDental.entity.Paciente;
 import com.backend.clinicaDental.repository.OdontologoRepository;
 import com.backend.clinicaDental.service.IOdontologoService;
 
+import com.backend.clinicaDental.utils.JsonPrinter;
 import org.modelmapper.ModelMapper;
 
 import org.slf4j.Logger;
@@ -15,7 +20,9 @@ import java.util.List;
 
 @Service
 public class OdontologoService implements IOdontologoService {
+
     private final Logger LOGGER = LoggerFactory.getLogger(OdontologoService.class);
+
     private OdontologoRepository odontologoRepository;
     private ModelMapper modelMapper;
 
@@ -24,18 +31,42 @@ public class OdontologoService implements IOdontologoService {
         this.modelMapper = modelMapper;
     }
 
+    // *** METODO 1 --- REGISTRAR ODONTOLOGO --- ***
     @Override
-    public Odontologo registrarOdontologo(Odontologo odontologo) {
-        return odontologoRepository.save(odontologo);
+    public OdontologoSalidaDto registrarOdontologo(OdontologoEntradaDto odontologo) {
+
+        LOGGER.info("OdontologoEntradaDto: " + JsonPrinter.toString(odontologo));
+
+        Odontologo odontologoEntidad = modelMapper.map(odontologo, Odontologo.class);
+        Odontologo odontologoEntidadconId = odontologoRepository.save(odontologoEntidad);
+        OdontologoSalidaDto odontologoSalidaDto = modelMapper.map(odontologoEntidadconId, OdontologoSalidaDto.class);
+        LOGGER.info("PacienteentradaDto: " + JsonPrinter.toString(odontologoSalidaDto));
+        return odontologoSalidaDto;
     }
 
+    // *** METODO 2 --- LISTAR ODONTOLOGOS --- ***
     @Override
-    public List<Odontologo> listarOdontologo() {
-        return odontologoRepository.findAll();
+    public List<OdontologoSalidaDto> listarOdontologos() {
+        List<OdontologoSalidaDto> odontologosSalidaDto = odontologoRepository.findAll()
+                .stream()
+                .map(odontologo -> modelMapper.map(odontologo, OdontologoSalidaDto.class))
+                .toList();
+        LOGGER.info("Listado de todos los pacientes: {}", JsonPrinter.toString(odontologosSalidaDto));
+
+        return odontologosSalidaDto;
     }
 
+    // *** METODO 3 --- BUSCAR ODONTOLOGO POR ID --- ***
     @Override
-    public Odontologo buscarOdontologoPorId(Long id) {
-        return odontologoRepository.findById(id).orElse(null);
+    public OdontologoSalidaDto buscarOdontologoPorId(Long id) {
+        Odontologo odontologoBuscado = odontologoRepository.findById(id).orElse(null);
+        OdontologoSalidaDto odontologoEncontrado = null;
+
+        if(odontologoBuscado != null){
+            odontologoEncontrado = modelMapper.map(odontologoBuscado, OdontologoSalidaDto.class);
+            LOGGER.info("Paciente encontrado: {}", JsonPrinter.toString(odontologoEncontrado));
+        } else LOGGER.error("El ID no se encuentra registrado en la base de datos");
+
+        return odontologoEncontrado;
     }
 }

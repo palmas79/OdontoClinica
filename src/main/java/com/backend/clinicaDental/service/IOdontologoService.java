@@ -11,9 +11,7 @@ public interface IOdontologoService {
 
     OdontologoSalidaDto registrarOdontologo(OdontologoEntradaDto odontologo);
 
-    //Odontologo guardarOdontologo();
-
-    List<OdontologoSalidaDto> listarOdontologo();
+    List<OdontologoSalidaDto> listarOdontologos();
 
     OdontologoSalidaDto buscarOdontologoPorId(Long id);
 

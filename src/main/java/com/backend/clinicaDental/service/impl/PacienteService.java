@@ -29,11 +29,13 @@ public class PacienteService implements IPacienteService {
 
 
     // LOGICA EN EL SERVICIO
+
+    // *** METODO 1 --- REGISTRAR PACIENTE --- ***
     @Override
     public PacienteSalidaDto registrarPaciente(PacienteEntradaDto paciente) {
 
         // *** Punto 1 *** : LOGUEAR LA ENTRADA
-            LOGGER.info("PacienteentradaDto: " + JsonPrinter.toString(paciente));
+            LOGGER.info("PacienteEntradaDto: " + JsonPrinter.toString(paciente));
         // *** Punto 2 *** : CONVERTIR DTO A ENTIDAD
             Paciente pacienteEntidad = modelMapper.map(paciente, Paciente.class);
         // *** Punto 3 *** : PERSISTIR LA ENTIDAD
@@ -45,23 +47,52 @@ public class PacienteService implements IPacienteService {
         return pacienteSalidaDto;
     }
 
+
+    // *** METODO 2 --- LISTAR PACIENTES --- ***
+
     @Override
     public List<PacienteSalidaDto> listarPacientes() {
-        return pacienteRepository.listarTodos();
+
+        //*** Punto 1 *** : OBTENER TODOS LOS PACIENTES
+        List<PacienteSalidaDto> pacientesSalidaDto = pacienteRepository.findAll()
+                // *** Punto 2 *** : TRANSFORMAR LAS ENTIDADES A DTOs DE SALIDA
+                .stream()
+                .map(paciente -> modelMapper.map(paciente, PacienteSalidaDto.class))
+                .toList();
+        // *** Punto 3 *** : LOGUEAR LA SALIDA
+        LOGGER.info("Listado de todos los pacientes: {}", JsonPrinter.toString(pacientesSalidaDto));
+
+        return pacientesSalidaDto;
     }
+
+    // *** METODO 3 --- BUSCAR PACIENTE POR ID --- ***
+
     @Override
     public PacienteSalidaDto buscarPacientePorId(Long id) {
-        return pacienteRepository.buscarPorId(id);
+
+        //*** Punto 1 *** : BUSCAR PACIENTE POR ID
+        Paciente pacienteBuscado = pacienteRepository.findById(id).orElse(null);
+        //*** Punto 2 *** : INICIALIZAR DTO DE SALIDA
+        PacienteSalidaDto pacienteEncontrado = null;
+
+        //*** Punto 3 *** : VERIFICAR SI EL PACIENTE FUE ENCONTRADO
+        if(pacienteBuscado != null){
+            pacienteEncontrado = modelMapper.map(pacienteBuscado, PacienteSalidaDto.class);
+            LOGGER.info("Paciente encontrado: {}", JsonPrinter.toString(pacienteEncontrado));
+
+        } else LOGGER.error("El ID no se encuentra registrado en la base de datos");
+
+        //*** Punto 4 *** : DEVOLVER EL DTO DE SALIDA
+        return pacienteEncontrado;
     }
 
 
 
 
+    // *** METODO 4 --- CONFIGURE MAPPING --- ***
 
-
-
-    // *** CONFIGURE MAPPING *** CLAVE DTO ENTRADA -> SERVICE -> ENTIDAD : ENTIDAD -> SERVICE -> DTO SALIDA
-    // lo que hace este metodo es mapear atributos con distinto nombre en este caso domicilio | domicilioEntradaDto en la entidad Paciente y la entidad PacienteEntradaDto.
+    // 1. CLAVE DTO ENTRADA -> SERVICE -> ENTIDAD : ENTIDAD -> SERVICE -> DTO SALIDA
+    // 2. MAPEA ATRIBUTOS CON DISTINTO NOMBRE EN ESTE CASO: domicilio | domicilioEntradaDto en la Entidad Paciente y DTO PacienteEntradaDto.
 
     private void configureMapping(){
         //configuro los datos de DomicilioEntradaDto y Domicilio de las entidades para que setear los datos a atributos de distinto nombre pero que son los mismos.

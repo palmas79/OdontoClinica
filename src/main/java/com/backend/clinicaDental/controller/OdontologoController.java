@@ -1,6 +1,7 @@
 package com.backend.clinicaDental.controller;
 
 
+import com.backend.clinicaDental.dto.entrada.OdontologoEntradaDto;
 import com.backend.clinicaDental.dto.entrada.PacienteEntradaDto;
 import com.backend.clinicaDental.dto.salida.OdontologoSalidaDto;
 import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
@@ -19,39 +20,41 @@ public class OdontologoController {
     private IOdontologoService odontologoService;
 
     public OdontologoController(IOdontologoService odontologoService) {
+
         this.odontologoService = odontologoService;
     }
+
 
     //GET
 
     @GetMapping() // opcional ("/listar")
     public ResponseEntity<List<OdontologoSalidaDto>> listarOdontologos(){
-        return new ResponseEntity<>(odontologoService.listarOdontologo(), HttpStatus.OK);
+        return new ResponseEntity<>(odontologoService.listarOdontologos(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}") //localhost:8082/pacientes/x
-    public ResponseEntity<PacienteSalidaDto> buscarPacientePorId(@PathVariable Long id){
-        return new ResponseEntity<>(pacienteService.buscarPacientePorId(id), HttpStatus.OK);
+    @GetMapping("/{id}") //localhost:8082/odontologos/x
+    public ResponseEntity<OdontologoSalidaDto> buscarOdontologoPorId(@PathVariable Long id){
+        return new ResponseEntity<>(odontologoService.buscarOdontologoPorId(id), HttpStatus.OK);
     }
 
 
     //POST
     @PostMapping("/registrar")
-    public ResponseEntity<PacienteSalidaDto> registrarPaciente(@RequestBody @Valid PacienteEntradaDto paciente){
-        return new ResponseEntity<>(pacienteService.registrarPaciente(paciente), HttpStatus.CREATED);
+    public ResponseEntity<OdontologoSalidaDto> registrarOdontologo(@RequestBody @Valid OdontologoEntradaDto odontologo){
+        return new ResponseEntity<>(odontologoService.registrarOdontologo(odontologo), HttpStatus.CREATED);
     }
 
 
     //PUT
-    @PutMapping("/actualizar/{id}")//localhost:8082/pacientes/actualizar/x
-    public ResponseEntity<PacienteSalidaDto> actualizarPaciente(@RequestBody @Valid PacienteEntradaDto paciente){
-        return null; //pacienteService.actualizar(paciente);
+    @PutMapping("/actualizar/{id}")//localhost:8082/odontologos/actualizar/x
+    public ResponseEntity<OdontologoSalidaDto> actualizarOdontologo(@RequestBody @Valid OdontologoEntradaDto odontologo){
+        return null; //odontologoService.actualizar(odontologo);
     }
 
     //DELETE
-    @DeleteMapping("/eliminar")//localhost:8082/pacientes/eliminar?id=x
-    public ResponseEntity<?> eliminarPaciente(@RequestParam int id){
-        //pacienteService.eliminarPaciente(id);
-        return new ResponseEntity<>("Paciente eliminado correctamente", HttpStatus.NO_CONTENT);
+    @DeleteMapping("/eliminar")//localhost:8082/odontologos/eliminar?id=x
+    public ResponseEntity<?> eliminarOdontologo(@RequestParam int id){
+        //odontologoService.eliminarOdontologo(id);
+        return new ResponseEntity<>("Odontologo eliminado correctamente", HttpStatus.NO_CONTENT);
     }
 }
