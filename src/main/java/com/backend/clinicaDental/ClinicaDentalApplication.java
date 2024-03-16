@@ -28,7 +28,8 @@ public class ClinicaDentalApplication {
 
 	}
 
-	@Bean
+	@Bean //se disponibiliza el Bean. Necesito que springBoot me lo maneje por eso lo declaro.
+	//metodo para disponibilizar el model mapper
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
 	}
