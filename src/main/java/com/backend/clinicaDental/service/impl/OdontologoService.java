@@ -1,30 +1,41 @@
 package com.backend.clinicaDental.service.impl;
 
-import com.backend.clinicaDental.dao.IDao;
 import com.backend.clinicaDental.entity.Odontologo;
+import com.backend.clinicaDental.repository.OdontologoRepository;
+import com.backend.clinicaDental.service.IOdontologoService;
+
+import org.modelmapper.ModelMapper;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class OdontologoService {
-    private IDao<Odontologo> odontologoIDao;
+public class OdontologoService implements IOdontologoService {
+    private final Logger LOGGER = LoggerFactory.getLogger(OdontologoService.class);
+    private OdontologoRepository odontologoRepository;
+    private ModelMapper modelMapper;
 
-    public OdontologoService(IDao<Odontologo> odontologoIDao) {
-        this.odontologoIDao = odontologoIDao;
+    public OdontologoService(OdontologoRepository odontologoRepository, ModelMapper modelMapper) {
+        this.odontologoRepository = odontologoRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public Odontologo guardarOdontologo(Odontologo odontologo) {
-        return odontologoIDao.registrar(odontologo);
+    @Override
+    public Odontologo registrarOdontologo(Odontologo odontologo) {
+        return odontologoRepository.save(odontologo);
     }
 
-    public Odontologo buscarOdontologoPorId(int id) {
-        return odontologoIDao.buscarPorId(id);
+    @Override
+    public List<Odontologo> listarOdontologo() {
+        return odontologoRepository.findAll();
     }
 
-    public List<Odontologo> listarOdontologos() {
-        return odontologoIDao.listarTodos();
+    @Override
+    public Odontologo buscarOdontologoPorId(Long id) {
+        return odontologoRepository.findById(id).orElse(null);
     }
-
-
 }

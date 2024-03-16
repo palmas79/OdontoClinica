@@ -2,40 +2,33 @@ package com.backend.clinicaDental.dto.salida;
 
 import com.backend.clinicaDental.entity.Odontologo;
 import com.backend.clinicaDental.entity.Paciente;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
 public class TurnoSalidaDto {
-
-    private int id;
-    private OdontologoSalidaDto odontologoSalidaDto;
+    private Long id;
     private PacienteSalidaDto pacienteSalidaDto;
+    private OdontologoSalidaDto odontologoSalidaDto;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime fechaYHora;
 
     public TurnoSalidaDto() {
     }
 
-    public TurnoSalidaDto(int id, OdontologoSalidaDto odontologoSalidaDto, PacienteSalidaDto pacienteSalidaDto, LocalDateTime fechaYHora) {
+    public TurnoSalidaDto(Long id, PacienteSalidaDto pacienteSalidaDto, OdontologoSalidaDto odontologoSalidaDto, LocalDateTime fechaYHora) {
         this.id = id;
-        this.odontologoSalidaDto = odontologoSalidaDto;
         this.pacienteSalidaDto = pacienteSalidaDto;
+        this.odontologoSalidaDto = odontologoSalidaDto;
         this.fechaYHora = fechaYHora;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public OdontologoSalidaDto getOdontologoSalidaDto() {
-        return odontologoSalidaDto;
-    }
-
-    public void setOdontologoSalidaDto(OdontologoSalidaDto odontologoSalidaDto) {
-        this.odontologoSalidaDto = odontologoSalidaDto;
     }
 
     public PacienteSalidaDto getPacienteSalidaDto() {
@@ -44,6 +37,14 @@ public class TurnoSalidaDto {
 
     public void setPacienteSalidaDto(PacienteSalidaDto pacienteSalidaDto) {
         this.pacienteSalidaDto = pacienteSalidaDto;
+    }
+
+    public OdontologoSalidaDto getOdontologoSalidaDto() {
+        return odontologoSalidaDto;
+    }
+
+    public void setOdontologoSalidaDto(OdontologoSalidaDto odontologoSalidaDto) {
+        this.odontologoSalidaDto = odontologoSalidaDto;
     }
 
     public LocalDateTime getFechaYHora() {

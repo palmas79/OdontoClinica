@@ -1,7 +1,5 @@
 package com.backend.clinicaDental.service.impl;
 
-
-import com.backend.clinicaDental.dao.IDao;
 import com.backend.clinicaDental.dto.entrada.PacienteEntradaDto;
 import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
 import com.backend.clinicaDental.entity.Paciente;
@@ -19,7 +17,8 @@ import java.util.List;
 public class PacienteService implements IPacienteService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(PacienteService.class);
-    private IDao<Paciente> pacienteIDao;
+    private
+    nteIDao;
     private ModelMapper modelMapper;
 
     //@Autowired | revisar esta anotacion.

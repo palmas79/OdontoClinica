@@ -20,19 +20,23 @@ public class Paciente {
     @Column(length = 10)
     private int dni;
     private LocalDate fechaIngreso;
-    //un paciente tiene un domicilio.
 
+    //un paciente tiene un domicilio.
     @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn (name = "domicilio_id")
     private Domicilio domicilio;
 
+    public Paciente() {
+    }
+
+    /*
     public Paciente(String nombre, String apellido, int dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.fechaIngreso = fechaIngreso;
         this.domicilio = domicilio;
-    }
+    }*/
 
     public Paciente(Long id, String nombre, String apellido, int dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.id = id;
@@ -91,9 +95,10 @@ public class Paciente {
         this.domicilio = domicilio;
     }
 
+    /*
     @Override
     public String toString() {
         return "Id: " + id + " - Nombre: " + nombre + " - Apellido: " + apellido + " - DNI: " + dni + " - Fechas de ingreso: " + fechaIngreso + " - Domicilio: " + domicilio;
-    }
+    }*/
 }
 

@@ -10,7 +10,7 @@ public class Domicilio {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 50)
+    @Column(length = 50 /*, name="calle*/)
     private String calle;
     @Column(length = 8)
     private int numero;
@@ -70,8 +70,8 @@ public class Domicilio {
         this.provincia = provincia;
     }
 
-    /*@Override
+    /* @Override
     public String toString() {
         return "Id: " + id + " - Calle: " + calle + " - Numero: " + numero + " - Localidad: " + localidad + " - Provincia: " + provincia;
-    }*/
+    } */
 }
