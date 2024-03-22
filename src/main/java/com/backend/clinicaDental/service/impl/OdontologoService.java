@@ -5,6 +5,7 @@ import com.backend.clinicaDental.dto.salida.OdontologoSalidaDto;
 import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
 import com.backend.clinicaDental.entity.Odontologo;
 import com.backend.clinicaDental.entity.Paciente;
+import com.backend.clinicaDental.exceptions.ResourceNotFoundException;
 import com.backend.clinicaDental.repository.OdontologoRepository;
 import com.backend.clinicaDental.service.IOdontologoService;
 
@@ -69,4 +70,16 @@ public class OdontologoService implements IOdontologoService {
 
         return odontologoEncontrado;
     }
+
+    // *** METODO 4 --- ELIMINAR ODONTOLOGO --- ***
+    @Override
+    public void eliminarOdontologo (Long id) throws ResourceNotFoundException {
+        if (buscarOdontologoPorId(id) != null){
+            odontologoRepository.deleteById(id);
+            LOGGER.warn("Se ha eliminado el odontologo con id {}", id);
+        } else {
+            throw new ResourceNotFoundException("No existe registro de odontologo con id " + id);
+        }
+    }
+
 }

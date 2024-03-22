@@ -2,6 +2,7 @@ package com.backend.clinicaDental.controller;
 
 import com.backend.clinicaDental.dto.entrada.PacienteEntradaDto;
 import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
+import com.backend.clinicaDental.exceptions.ResourceNotFoundException;
 import com.backend.clinicaDental.service.IPacienteService;
 
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+//La anotación @Controller indica que una clase particular cumple la función de un controlador.
+//El patrón Controlador sirve como intermediario entre una interfaz y el algoritmo que implementa, de tal forma que es la que recibe los datos del usuario y la que los envía a las distintas clases según el método llamado.
 
 @RestController // @Rest controller = @ResponseBody + @Controller
 @RequestMapping("/pacientes")
@@ -49,8 +53,8 @@ public class PacienteController {
 
     //DELETE
     @DeleteMapping("/eliminar")//localhost:8082/pacientes/eliminar?id=x
-    public ResponseEntity<?> eliminarPaciente(@RequestParam Long id){
-        //pacienteService.eliminarPaciente(id);
+    public ResponseEntity<?> eliminarPaciente(@RequestParam Long id) throws ResourceNotFoundException {
+        pacienteService.eliminarPaciente(id);
         return new ResponseEntity<>("Paciente eliminado correctamente", HttpStatus.NO_CONTENT);
     }
 

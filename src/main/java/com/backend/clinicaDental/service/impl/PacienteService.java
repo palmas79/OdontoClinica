@@ -3,6 +3,7 @@ package com.backend.clinicaDental.service.impl;
 import com.backend.clinicaDental.dto.entrada.PacienteEntradaDto;
 import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
 import com.backend.clinicaDental.entity.Paciente;
+import com.backend.clinicaDental.exceptions.ResourceNotFoundException;
 import com.backend.clinicaDental.repository.PacienteRepository;
 import com.backend.clinicaDental.service.IPacienteService;
 import com.backend.clinicaDental.utils.JsonPrinter;
@@ -69,6 +70,7 @@ public class PacienteService implements IPacienteService {
 
     @Override
     public PacienteSalidaDto buscarPacientePorId(Long id) {
+        //alerta spoiler: throws ResourceNotFoundException no funciona en este tipo de metodos porque se pisan las excepciones.
 
         //*** Punto 1 *** : BUSCAR PACIENTE POR ID
         Paciente pacienteBuscado = pacienteRepository.findById(id).orElse(null);
@@ -80,16 +82,28 @@ public class PacienteService implements IPacienteService {
             pacienteEncontrado = modelMapper.map(pacienteBuscado, PacienteSalidaDto.class);
             LOGGER.info("Paciente encontrado: {}", JsonPrinter.toString(pacienteEncontrado));
 
-        } else LOGGER.error("El ID no se encuentra registrado en la base de datos");
+        } else LOGGER.error("No se ha encontrado el paciente con id {}", id);
 
         //*** Punto 4 *** : DEVOLVER EL DTO DE SALIDA
         return pacienteEncontrado;
     }
 
+    // *** METODO 4 --- ELIMINAR PACIENTE --- ***
+    @Override
+    public void eliminarPaciente (Long id) throws ResourceNotFoundException {
+        if (buscarPacientePorId(id) != null){
+            pacienteRepository.deleteById(id);
+            LOGGER.warn("Se ha eliminado el paciente con id {}", id);
+        } else {
+            //LOGGER.error("No se ha encontrado el paciente con id {}", id);
+            throw new ResourceNotFoundException("No existe registro de paciente con id " + id);
+        }
+    }
 
 
 
-    // *** METODO 4 --- CONFIGURE MAPPING --- ***
+
+    // *** METODO 6 --- CONFIGURE MAPPING --- ***
 
     // 1. CLAVE DTO ENTRADA -> SERVICE -> ENTIDAD : ENTIDAD -> SERVICE -> DTO SALIDA
     // 2. MAPEA ATRIBUTOS CON DISTINTO NOMBRE EN ESTE CASO: domicilio | domicilioEntradaDto en la Entidad Paciente y DTO PacienteEntradaDto.
