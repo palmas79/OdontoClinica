@@ -47,8 +47,8 @@ public class PacienteController {
 
     //PUT
     @PutMapping("/actualizar/{id}")//localhost:8082/pacientes/actualizar/x
-    public ResponseEntity<PacienteSalidaDto> actualizarPaciente(@RequestBody @Valid PacienteEntradaDto paciente){
-        return null; //pacienteService.actualizar(paciente);
+    public ResponseEntity<PacienteSalidaDto> actualizarPaciente(@RequestBody @Valid PacienteEntradaDto paciente, @PathVariable Long id) throws ResourceNotFoundException {
+        return new ResponseEntity<>(pacienteService.modificarPaciente(paciente, id), HttpStatus.OK);
     }
 
     //DELETE

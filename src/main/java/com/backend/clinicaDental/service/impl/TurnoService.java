@@ -4,11 +4,13 @@ import com.backend.clinicaDental.dto.entrada.TurnoEntradaDto;
 import com.backend.clinicaDental.dto.salida.OdontologoSalidaDto;
 import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
 import com.backend.clinicaDental.dto.salida.TurnoSalidaDto;
+import com.backend.clinicaDental.entity.Paciente;
 import com.backend.clinicaDental.entity.Turno;
 import com.backend.clinicaDental.exceptions.BadRequestException;
 import com.backend.clinicaDental.exceptions.ResourceNotFoundException;
 import com.backend.clinicaDental.repository.TurnoRepository;
 import com.backend.clinicaDental.service.ITurnoService;
+import com.backend.clinicaDental.utils.JsonPrinter;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,12 +71,27 @@ public class TurnoService implements ITurnoService {
 
     @Override
     public List<TurnoSalidaDto> listarTurnos() {
-        return null;
+        List<TurnoSalidaDto> turnosSalidaDto = turnoRepository.findAll()
+                .stream()
+                .map(turno -> modelMapper.map(turno, TurnoSalidaDto.class))
+                .toList();
+        LOGGER.info("Listado de todos los turnos: {}", JsonPrinter.toString(turnosSalidaDto));
+        return turnosSalidaDto;
     }
 
     @Override
     public TurnoSalidaDto buscarTurnoPorId(Long id) {
-        return null;
+
+        Turno turnoBuscado = turnoRepository.findById(id).orElse(null);
+        TurnoSalidaDto turnoEncontrado = null;
+
+        if(turnoBuscado != null){
+            turnoEncontrado = modelMapper.map(turnoBuscado, TurnoSalidaDto.class);
+            LOGGER.info("Paciente encontrado: {}", JsonPrinter.toString(turnoEncontrado));
+
+        } else LOGGER.error("No se ha encontrado el turno con id {}", id);
+
+        return turnoEncontrado;
     }
 
     // *** METODO 4 --- ELIMINAR TURNO --- ***
@@ -89,9 +106,30 @@ public class TurnoService implements ITurnoService {
         }
     }
 
+    // *** METODO 5 --- MODIFICAR TURNO --- ***
     @Override
-    public TurnoSalidaDto modificarTurno(TurnoEntradaDto turnoEntradaDto, Long Id) {
-        return null;
+    public TurnoSalidaDto modificarTurno(TurnoEntradaDto turnoEntradaDto, Long id) {
+        Turno turnoRecibido = modelMapper.map(turnoEntradaDto, Turno.class);
+        Turno turnoAActualizar = turnoRepository.findById(id).orElse(null);
+        TurnoSalidaDto turnoSalidaDto = null;
+
+        if(turnoAActualizar != null){
+
+            turnoAActualizar.setOdontologo(turnoRecibido.getOdontologo());
+            turnoAActualizar.setPaciente(turnoRecibido.getPaciente());
+            turnoAActualizar.setFechaYHora(turnoRecibido.getFechaYHora());
+            turnoRepository.save(turnoAActualizar);
+
+            turnoSalidaDto = modelMapper.map(turnoAActualizar, TurnoSalidaDto.class);
+
+            LOGGER.warn("Turno actualizado: {}", turnoSalidaDto);
+
+        } else {
+            LOGGER.error("No fue posible actualizar los datos ya que el turno no se encuentra registrado");
+        }
+
+
+        return turnoSalidaDto;
     }
 
 

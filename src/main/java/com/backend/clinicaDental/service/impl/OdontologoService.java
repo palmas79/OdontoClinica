@@ -69,14 +69,16 @@ public class OdontologoService implements IOdontologoService {
         return odontologoEncontrado;
     }
 
+
     // *** METODO 4 --- ELIMINAR ODONTOLOGO --- ***
     @Override
-    public void eliminarOdontologo (Long id) throws ResourceNotFoundException {
-        if (buscarOdontologoPorId(id) != null){
+    public void eliminarOdontologo (Long id) {
+        if (buscarOdontologoPorId(id) != null) {
             odontologoRepository.deleteById(id);
-            LOGGER.warn("Se ha eliminado el odontologo con id {}", id);
+            LOGGER.warn("Se ha eliminado el odontologo con id: {}", id);
         } else {
-            throw new ResourceNotFoundException("No existe registro de odontologo con id " + id);
+            LOGGER.error("No se ha encontrado el odontologo con id {}", id);
+
         }
     }
 
