@@ -8,14 +8,15 @@ import java.time.LocalDate;
 
 public class PacienteEntradaDto {
 
-    @NotNull(message = "El nombre del paciente no puede ser nulo")
+    //revisar *** NotBlank incluye a NotNull
+    //@NotNull(message = "El nombre del paciente no puede ser nulo")
     @NotBlank(message = "Debe especificarse el nombre del paciente")
     @Size(min= 3, max = 50, message = "El nombre debe tener desde 3 y hasta 50 caracteres")
     private String nombre;
 
     @Size(min=3, max = 50, message = "El apellido debe tener desde 3 y hasta 50 caracteres")
     @NotBlank(message = "Debe especificarse el apellido del paciente")
-    @NotNull(message = "El apellido no debe ser nulo")
+    //@NotNull(message = "El apellido no debe ser nulo")
     private String apellido;
 
     @Positive(message = "El dni del paciente no puede ser nulo o menor a cero")
@@ -23,7 +24,7 @@ public class PacienteEntradaDto {
     private int dni;
 
     @FutureOrPresent(message = "La fecha no puede ser anterior al día de hoy")
-    @NotNull(message = "Debe especificarse la fecha de ingreso del paciente")
+    //@NotNull(message = "Debe especificarse la fecha de ingreso del paciente")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     //@JsonProperty("date")
     private LocalDate fechaIngreso;
