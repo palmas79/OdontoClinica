@@ -24,7 +24,14 @@ public class GlobalExceptionHandler {
         return mensaje;
     }
 
-    // tenemos que hacer el manejo global de la BadRequest
+    //  manejo global de la BadRequest
+    @ExceptionHandler({BadRequestException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> manejarBadRequest(BadRequestException badRequestException){
+        Map<String, String> mensaje = new HashMap<>();
+        mensaje.put("mensaje", "el servidor no puede o no procesará la solicitud: error del cliente" + badRequestException.getMessage());
+        return mensaje;
+    }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
