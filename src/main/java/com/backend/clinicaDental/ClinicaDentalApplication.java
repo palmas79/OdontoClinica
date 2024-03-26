@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 
 //anotacion que indica que es la ventana principal para correr la app.
 @SpringBootApplication
+
 public class ClinicaDentalApplication {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ClinicaDentalApplication.class);
@@ -19,6 +20,7 @@ public class ClinicaDentalApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(ClinicaDentalApplication.class, args);
+
 
 		//crearTabla(); | *** se quita porque no se va a usar, lo dejo como ejemplo grabado en el codigo. ***
 

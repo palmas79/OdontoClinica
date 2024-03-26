@@ -54,6 +54,10 @@ class PacienteServiceTest {
             e.printStackTrace();
         }
         assertThrows(ResourceNotFoundException.class,() -> pacienteService.eliminarPaciente(1L));
+        //este test intenta eliminar un paciente por id, una vez hecho, si se intenta eliminar nuevamente, se
+        // envia la excepcion, de darse esto, quiere decir que el metodo try/catch previo funciona bien
+        // eliminando el paciente.
+
     }
 
     @Test
