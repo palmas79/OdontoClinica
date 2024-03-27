@@ -15,7 +15,7 @@ import java.util.List;
 
 //La anotación @Controller indica que una clase particular cumple la función de un controlador.
 //El patrón Controlador sirve como intermediario entre una interfaz y el algoritmo que implementa, de tal forma que es la que recibe los datos del usuario y la que los envía a las distintas clases según el método llamado.
-
+//@CrossOrigin(origins = "http://localhost:8082")
 @RestController // @Rest controller = @ResponseBody + @Controller
 @RequestMapping("/pacientes")
 public class PacienteController {
@@ -39,6 +39,7 @@ public class PacienteController {
 
 
     //POST
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/registrar")
     public ResponseEntity<PacienteSalidaDto> registrarPaciente(@RequestBody @Valid PacienteEntradaDto paciente){
         return new ResponseEntity<>(pacienteService.registrarPaciente(paciente), HttpStatus.CREATED);

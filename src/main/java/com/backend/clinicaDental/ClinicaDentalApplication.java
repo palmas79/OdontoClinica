@@ -36,25 +36,5 @@ public class ClinicaDentalApplication {
 		return new ModelMapper();
 	}
 
-	//*** se quita porque no se va a usar, lo dejo como ejemplo grabado en el codigo. ***
-	/*
-	public static void crearTabla(){
-		Connection connection = null;
-		try{
-			Class.forName("org.h2.Driver");
-			connection = DriverManager.getConnection("jdbc:h2:~/cliDental", "gera", "gerardo");
-		} catch (Exception e){
-			e.printStackTrace();
-		} finally {
-			try{
-				connection.close();
-			} catch(Exception ex){
-				ex.printStackTrace();
-			}
-		}
-
-	}
-	*/
-
 
 }

@@ -1,20 +1,14 @@
 package com.backend.clinicaDental.controller;
-
-
 import com.backend.clinicaDental.dto.entrada.OdontologoEntradaDto;
-import com.backend.clinicaDental.dto.entrada.PacienteEntradaDto;
 import com.backend.clinicaDental.dto.salida.OdontologoSalidaDto;
-import com.backend.clinicaDental.dto.salida.PacienteSalidaDto;
-import com.backend.clinicaDental.exceptions.ResourceNotFoundException;
 import com.backend.clinicaDental.service.IOdontologoService;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
+//@CrossOrigin(origins = "http://localhost:8082")
 @RestController
 @RequestMapping("/odontologos")
 public class OdontologoController {

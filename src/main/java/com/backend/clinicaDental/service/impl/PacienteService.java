@@ -129,11 +129,7 @@ public class PacienteService implements IPacienteService {
         }
 
         return pacienteSalidaDto;
-
     }
-
-
-
 
     // *** METODO 6 --- CONFIGURE MAPPING --- ***
 
